@@ -4,27 +4,56 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>TV Show DOM - Level 400 - Sample Solution</title>
+    <title>TV Show DOM - Level 500 - Sample Solution</title>
 
     <link
-      href="https://fonts.googleapis.com/css?family=Dosis:400,700"
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Merriweather&display=swap"
       rel="stylesheet"
     />
+
     <link href="style.css" rel="stylesheet" />
   </head>
 
   <body>
     <div id="root">
-      <div id="controls">
-        <select id="showSelect"></select>
-
-        <select id="episodeSelect"></select>
-        <input id="searchInput" type="text" placeholder="your search term..." />
-        <span id="countDisplay">Displaying n episodes</span>
+      <div id="episodesPage">
+        <header>
+          <div id="listShowsLink">Back to all shows</div>
+          <h1 id="showTitleHeader">Breaking Bad</h1>
+        </header>
+        <div id="controls">
+          <select id="episodeSelect"></select>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="your search term..."
+          />
+          <span id="countDisplay">Displaying n episodes</span>
+        </div>
+        <div id="episodes"></div>
       </div>
-      <div id="episodes"></div>
+
+      <div id="showsPage">
+        <header></header>
+        <div id="controlPanel">
+          <span class="control">Filtering for </span
+          ><input
+            id="showsSearchInput"
+            class="control"
+            type="text"
+            placeholder="search for a show"
+            value="mystery"
+          />
+          <div class="control" id="filterSummary">?</div>
+          <select id="showSelect"></select>
+        </div>
+        <div>
+          <ul id="showsList"></ul>
+        </div>
+      </div>
     </div>
 
+    <script src="shows.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

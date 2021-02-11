@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>TV Show DOM - Level 50 - Sample Solution</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Dosis:400,700"
+      rel="stylesheet"
+    />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="root">
+      <div id="episodesPage">
+        <div id="controls">
+          <select id="showSelect"></select>
+          <select id="episodeSelect"></select>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="your search term..."
+          />
+          <span id="countDisplay">Displaying n episodes</span>
+        </div>
+        <div id="episodes"></div>
+      </div>
+
+      <div id="showsPage">
+        <div id="controlPanel">
+          <span class="control">Filtering for </span
+          ><input
+            id="searchInput"
+            class="control"
+            type="text"
+            placeholder="search for a show"
+            value="mystery"
+          />
+          <div class="control" id="filterSummary">5</div>
+        </div>
+        <div>
+          <ul>
+            <li class="show">
+              <a href="http://www.tvmaze.com/shows/118/house"><h1>House</h1></a>
+              <div class="three-panels">
+                <figure class="panel panel-one">
+                  <img
+                    src="http://static.tvmaze.com/uploads/images/medium_portrait/43/109527.jpg"
+                    alt="{item.name}"
+                  />
+                </figure>
+                <div class="panel panel-two">
+                  Sink your teeth into meaty drama and intrigue with House,
+                  FOX's take on mystery, where the villain is a medical malady
+                  and the hero is an irreverent, controversial doctor who trusts
+                  no one, least of all his patients.
+                </div>
+                <div class="panel panel-three">
+                  <p><span class="info-key">Rated:</span> 9</p>
+                  <p>
+                    <span class="info-key">Genres: </span>Drama | Mystery |
+                    Medical
+                  </p>
+                  <p><span class="info-key">Status:</span> Ended</p>
+                  <p><span class="info-key">Runtime:</span> 60</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="shows.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

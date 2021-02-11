@@ -42,3 +42,7 @@ If you _really_ want to run it locally:
 - check out the branch you're interested in
 - open the folder in vscode
 - right click on index.html and run live server
+
+# Great! What else do you got?
+
+Solutions to a reimplementation of the various levels in React, using hooks: https://github.com/nbogie/tvmaze-project-react-solutions

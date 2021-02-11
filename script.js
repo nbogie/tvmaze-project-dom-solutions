@@ -27,6 +27,29 @@ function episodeMatchesQuery(episode, query) {
     return contains(episode.name, query) || contains(episode.summary, query);
 }
 
+function handleChosenEpisode(event) {
+    let opts = event.target.selectedOptions;
+    if (opts.length !== 1) {
+        return;
+    }
+    let id = opts[0].value;
+    document.location.assign(`#${id}`);
+}
+
+function makeEpisodeSelector(episodes) {
+    const selectElem = document.getElementById("episodeSelect");
+    selectElem.textContent = ""; //empty it
+    selectElem.onchange = handleChosenEpisode;
+    episodes.forEach(episode => {
+        //<option value="S01E01">S01E01 Winter is Coming</option>;
+        const optionElem = document.createElement("option");
+        const code = makeEpisodeCode(episode);
+        optionElem.setAttribute("value", code);
+        optionElem.textContent = `${code} - ${episode.name}`;
+        selectElem.appendChild(optionElem);
+    });
+}
+
 function pad(num) {
     return num.toString().padStart(2, "0");
 }
@@ -36,6 +59,8 @@ function makeEpisodeCode(episode) {
 }
 
 function makePageForEpisodes(json) {
+    makeEpisodeSelector(json);
+
     document.getElementById(
         "countDisplay"
     ).textContent = `Displaying ${json.length}/${allEpisodes.length} episodes.`;

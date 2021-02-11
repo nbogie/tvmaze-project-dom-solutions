@@ -6,8 +6,32 @@ function setup() {
         .getElementById("searchInput")
         .addEventListener("input", makePageForMatchingEpisodes);
 
+    fetch("https://api.tvmaze.com/shows")
+        .then(resp => resp.json())
+        .then(handleShowsJSONResponse);
+}
+
+function sortShowsByName(allShows) {
+    //assumes all shows have a name.
+    allShows.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function handleShowsJSONResponse(json) {
+    const allShows = json;
+    sortShowsByName(allShows);
+    makeShowSelector(allShows);
+    fetchEpisodesForShow(allShows[0].id);
+}
+
+function fetchEpisodesForShow(showId) {
+    fetch(`https://api.tvmaze.com/shows/${showId}/episodes`)
+        .then(resp => resp.json())
+        .then(handleEpisodesJSONResponse);
+}
+
+function handleEpisodesJSONResponse(json) {
     //we cache the episode list locally for further filtering
-    allEpisodes = getAllEpisodes();
+    allEpisodes = json;
     makePageForEpisodes(allEpisodes);
 }
 
@@ -34,6 +58,28 @@ function handleChosenEpisode(event) {
     }
     let id = opts[0].value;
     document.location.assign(`#${id}`);
+}
+
+function handleChosenShow(event) {
+    let opts = event.target.selectedOptions;
+    if (opts.length !== 1) {
+        return;
+    }
+    let id = opts[0].value;
+    fetchEpisodesForShow(Number(id));
+}
+
+function makeShowSelector(shows) {
+    const selectElem = document.getElementById("showSelect");
+    selectElem.textContent = ""; //empty it
+    selectElem.onchange = handleChosenShow;
+    shows.forEach(show => {
+        //e.g. <option value="82">Game Of Thrones</option>;
+        const optionElem = document.createElement("option");
+        optionElem.setAttribute("value", show.id);
+        optionElem.textContent = show.name;
+        selectElem.appendChild(optionElem);
+    });
 }
 
 function makeEpisodeSelector(episodes) {
@@ -73,10 +119,16 @@ function makePageForEpisodes(json) {
     });
 }
 
+function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
 function makeCardForEpisode(episode) {
     //--- Containing... ---
-    //Title - Code (S02E07)
+    //Title,
     //Image
+    //Code (S02E07) and scroll-to-top link
     //Summary (cleaned)   
     const code = makeEpisodeCode(episode);
 
@@ -85,7 +137,7 @@ function makeCardForEpisode(episode) {
     card.setAttribute("id", code);
 
     const h1 = document.createElement("h1");
-    h1.textContent = `${episode.name} - ${code}`;
+    h1.textContent = `${episode.name} - ${code}`; //` `;
 
     const img = document.createElement("img");
     img.setAttribute(
@@ -109,10 +161,12 @@ function stripTags(str) {
         return str;
     }
     //regex components:
-    // <
-    // / (optional)
-    // a sequence of at least one alphabet character (case insensitive)
-    // >
+    // <       literal <
+    // / ?     literal /  (zero or one occurrences)
+    // [a-z]+  a sequence of at least one alphabet character (case insensitive)
+    // >       literal >
+    // gi      global and case-insensitive flags
+    //Further regex breakdown at https://regexr.com/532tm
     return str.replace(/<\/?[a-z]+>/gi, "");
 }
 window.onload = setup;
